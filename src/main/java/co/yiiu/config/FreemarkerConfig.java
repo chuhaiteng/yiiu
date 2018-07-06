@@ -25,6 +25,7 @@ public class FreemarkerConfig {
   private UserCollectDirective userCollectDirective;
   @Autowired
   private TopicsDirective topicsDirective;
+
   @Autowired
   private UserDirective userDirective;
   @Autowired
@@ -56,6 +57,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("notifications_tag", notificationsDirective);
     configuration.setSharedVariable("comments_tag", commentsDirective);
     configuration.setSharedVariable("reputation_tag", reputationDirective);
+    configuration.setSharedVariable("topics_category", topicsDirective);
 
     log.info("init freemarker sharedVariables {site} success...");
   }

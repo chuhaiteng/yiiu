@@ -11,7 +11,7 @@ spring:
     template-loader-path:
     - classpath:/${site.theme}/templates/
     - file:./views/${site.theme}/templates/
-    cache: false
+    cache: true
     settings:
       template_exception_handler: rethrow
       number_format: 0.##
@@ -29,7 +29,7 @@ spring:
     open-in-view: false
   redis: # 如果redis都是默认配置，下面这些都可以不用配置
     host: localhost
-    password: 123456
+    password:
     port: 6379
     ssl: false
     database: 0
@@ -49,24 +49,23 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch #默认为elasticsearch
-      cluster-nodes: 127.0.0.1:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
-
+      cluster-nodes: 192.168.38.151:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
 site:
-  name: YIIU
+  name: Q&A
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
-  baseUrl: http://localhost:8080/ # 不要忘了后面的 '/'
-  staticUrl: http://localhost:8080/static/images/upload/
+  baseUrl: http://192.168.38.115:8080/ # 不要忘了后面的 '/'
+  staticUrl: http://192.168.38.115:8080/static/images/upload/
   pageSize: 20
   uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
-  search: false
+  search: true
   GA: #Google Analytics ID
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   uploadType: local # local, qiniu
   cookie:
-    domain: localhost
+    domain: 192.168.38.115
     userName: remember-me
     userMaxAge: 30 # 天
     adminUserName: admin-remember-me
@@ -119,4 +118,7 @@ log:
     upTopic: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 点赞
     downTopic: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 点踩
     upComment: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论点赞
-    downComment: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论点踩
+    downComment: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论�
+logging:
+  level:
+    com.yiiu: debug

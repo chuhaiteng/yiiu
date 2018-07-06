@@ -146,10 +146,10 @@ public class TopicService {
     topicRepository.deleteByUserId(userId);
   }
 
-  public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
+  public Page<Map> page(Integer pageNo, Integer pageSize, String category) {
     Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-    if (tab.equalsIgnoreCase("good")) {
+    /*if (tab.equalsIgnoreCase("good")) {
       return topicRepository.findByGood(true, pageable);
     } else if (tab.equalsIgnoreCase("newest")) {
       sort = new Sort(Sort.Direction.DESC, "inTime", "weight");
@@ -157,6 +157,11 @@ public class TopicService {
       return topicRepository.findTopics(pageable);
     } else if (tab.equalsIgnoreCase("noanswer")) {
       return topicRepository.findByCommentCount(0, pageable);
+    } else {
+      return topicRepository.findTopics(pageable);
+    }*/
+    if(!StringUtils.isEmpty(category)){
+      return topicRepository.findByCategory(category, pageable);
     } else {
       return topicRepository.findTopics(pageable);
     }

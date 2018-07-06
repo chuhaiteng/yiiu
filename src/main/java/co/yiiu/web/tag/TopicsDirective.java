@@ -30,11 +30,15 @@ public class TopicsDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-    String tab = StringUtils.isEmpty(map.get("tab")) ? "default" : map.get("tab").toString();
-    if (StringUtils.isEmpty(tab)) tab = "";
+/*    String tab = StringUtils.isEmpty(map.get("tab")) ? "default" : map.get("tab").toString();
+    if (StringUtils.isEmpty(tab)) tab = "";*/
+
+    String category = StringUtils.isEmpty(map.get("category")) ? "" : map.get("category").toString();
+    if (StringUtils.isEmpty(category)) category = "";
+
 
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-    Page<Map> page = topicService.page(p, siteConfig.getPageSize(), tab);
+    Page<Map> page = topicService.page(p, siteConfig.getPageSize(), category);
 
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

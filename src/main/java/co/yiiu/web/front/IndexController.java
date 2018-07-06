@@ -3,6 +3,8 @@ package co.yiiu.web.front;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
+import co.yiiu.module.category.model.Category;
+import co.yiiu.module.category.service.CategoryService;
 import co.yiiu.module.es.model.TopicIndex;
 import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.tag.service.TagService;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by tomoya.
@@ -31,16 +36,19 @@ public class IndexController extends BaseController {
   private TagService tagService;
   @Autowired
   private TopicSearchService topicSearchService;
-
+  @Autowired
+  private CategoryService categoryService;
   /**
    * 首页
    *
    * @return
    */
   @GetMapping("/")
-  public String index(String tab, Integer p, Model model) {
+  public String index(String category, Integer p, Model model) {
+    List<Category> categorylist = categoryService.findAll();
     model.addAttribute("p", p);
-    model.addAttribute("tab", tab);
+    model.addAttribute("category",category);
+    model.addAttribute("categorylist",categorylist);
     return "front/index";
   }
 
@@ -62,6 +70,12 @@ public class IndexController extends BaseController {
 
   @GetMapping("/tags")
   public String tags(@RequestParam(defaultValue = "1") Integer p, Model model) {
+    model.addAttribute("page", tagService.page(p, siteConfig.getPageSize()));
+    return "front/tag/list";
+  }
+
+  @GetMapping("/category")
+  public String category(@RequestParam(defaultValue = "1") Integer p, Model model) {
     model.addAttribute("page", tagService.page(p, siteConfig.getPageSize()));
     return "front/tag/list";
   }

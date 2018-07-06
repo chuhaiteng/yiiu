@@ -96,7 +96,7 @@ public class TopicController extends BaseController {
   @GetMapping("/delete")
   public String delete(Integer id) {
     User user = getUser();
-    Assert.isTrue(user.getReputation() >= ReputationPermission.EDIT_TOPIC.getReputation(), "声望太低，不能进行这项操作");
+    //Assert.isTrue(user.getReputation() >= ReputationPermission.EDIT_TOPIC.getReputation(), "声望太低，不能进行这项操作");
     // delete topic
     topicService.deleteById(id, getUser().getId());
     return redirect("/");

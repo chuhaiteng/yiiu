@@ -47,6 +47,9 @@ public class Topic implements Serializable {
   @Column(name = "last_comment_time")
   private Date lastCommentTime;
 
+  @Column(name = "category_id")
+  private String categoryId;
+
   //是否置顶
   private Boolean top;
 

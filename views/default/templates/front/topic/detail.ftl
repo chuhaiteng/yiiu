@@ -16,13 +16,13 @@
           </#if>
         </h2>
         <p class="gray">
-          <i id="up_icon_${topic.id}" class="fa fa-chevron-up
+          <#--<i id="up_icon_${topic.id}" class="fa fa-chevron-up
               <#if user?? && topic.upIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
              onclick="voteTopic('UP')"></i>
           <i id="down_icon_${topic.id}" class="fa fa-chevron-down
               <#if user?? && topic.downIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-             onclick="voteTopic('DOWN')"></i>
-          <span id="up_down_vote_count_${topic.id}">${topic.up - topic.down}</span>
+             onclick="voteTopic('DOWN')"></i>-->
+          <#--<span id="up_down_vote_count_${topic.id}">${topic.up - topic.down}</span>
           <span>•</span>
           <#if topic.top == true>
             <span class="label label-primary">置顶</span>
@@ -30,23 +30,23 @@
           <#elseif topic.good == true>
             <span class="label label-success">精华</span>
             <span>•</span>
-          </#if>
-          <span><a href="/user/${topicUser.username!}">${topicUser.username!}</a></span>
-          <span>•</span>
+          </#if>-->
+          <#--<span><a href="/user/${topicUser.username!}">${topicUser.username!}</a></span>
+          <span>•</span>-->
           <span>${model.formatDate(topic.inTime)}</span>
           <span>•</span>
           <span>${topic.view!1}次点击</span>
-          <#if user?? && topic.userId == user.id>
+         <#-- <#if user?? && topic.userId == user.id>
             <span>•</span>
             <span><a href="/topic/edit?id=${topic.id}">编辑</a></span>
             <span>•</span>
             <span><a href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/delete?id=${topic.id}'">删除</a></span>
-          </#if>
+          </#if>-->
         </p>
       </div>
-      <div class="media-right">
+      <#--<div class="media-right">
         <img src="${topicUser.avatar}" class="avatar-lg"/>
-      </div>
+      </div>-->
     </div>
   </div>
     <div class="divide"></div>
@@ -58,7 +58,7 @@
         </#list>
       </div>
     </div>
-  <#if user??>
+  <#--<#if user??>
     <div class="panel-footer">
       <a href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id}?r=${user.username!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
       <#if collect??>
@@ -68,9 +68,9 @@
       </#if>
       <span class="pull-right"><span id="collectCount">${collectCount!0}</span>个收藏</span>
     </div>
-  </#if>
+  </#if>-->
 </div>
-<#if topic.commentCount == 0>
+<#--<#if topic.commentCount == 0>
   <div class="panel panel-default">
     <div class="panel-body text-center">目前暂无评论</div>
   </div>
@@ -82,8 +82,8 @@
       <@comment id=topic.id topic_user=topicUser/>
     </div>
   </div>
-</#if>
-<#if user??>
+</#if>-->
+<#--<#if user??>
   <div class="panel panel-default">
     <div class="panel-heading">
       添加一条新评论
@@ -101,7 +101,7 @@
       </#if>
     </div>
   </div>
-</#if>
+</#if>-->
 <#include "../components/show_big_image.ftl"/>
 <script>
   $(function() {

@@ -48,4 +48,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpeci
       countQuery = "select count(1) from Topic t, User u, TopicTag tt where t.userId = u.id and t.id = tt.topicId and tt.tagId = ?1")
   Page<Map> findTopicsByTagId(Integer tagId, Pageable pageable);
 
+  @Query(value = "select t as topic from Topic t where  t.categoryId = ?1",
+          countQuery = "select count(1) from Topic t where t.categoryId = ?1")
+  Page<Map> findByCategory(String category, Pageable pageable);
 }

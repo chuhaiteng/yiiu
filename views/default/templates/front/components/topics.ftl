@@ -2,14 +2,17 @@
   <#list topics as map>
     <div class="media">
       <div class="media-left">
-        <a href="/user/${map.user.username!}"><img src="${map.user.avatar}" class="avatar" alt=""></a>
+        <#--<a href="/user/${map.user.username!}"><img src="${map.user.avatar}" class="avatar" alt=""></a>-->
       </div>
       <div class="media-body">
         <div class="title">
           <#if model.isEmpty(map.topic.url)>
-            <a href="/topic/${map.topic.id}">
-              ${map.topic.title!?html}
-            </a>
+          <a href="/topic/${map.topic.id}">
+             ${map.topic.title!?html}
+              </a>
+      <#--${map.topic.id}<br>
+      ${map.topic.title!?html}<br>-->
+
           <#else>
             <a href="${map.topic.url!?html}" target="_blank">
               ${map.topic.title!?html}
@@ -30,10 +33,10 @@
             <span class="label label-success">精华</span>
             <span>•</span>
           </#if>
-          <span><a href="/user/${map.user.username!}">${map.user.username!}</a></span>
-          <span class="hidden-sm hidden-xs">•</span>
-          <span class="hidden-sm hidden-xs"><a href="/topic/${map.topic.id!c}">${map.topic.commentCount!0}个评论</a></span>
-          <span class="hidden-sm hidden-xs">•</span>
+        <#--  <span><a href="/user/${map.user.username!}">${map.user.username!}</a></span>
+          <span class="hidden-sm hidden-xs">•</span>-->
+          <#--<span class="hidden-sm hidden-xs"><a href="/topic/${map.topic.id!c}">${map.topic.commentCount!0}个评论</a></span>-->
+         <#-- <span class="hidden-sm hidden-xs">•</span>-->
           <span class="hidden-sm hidden-xs">${map.topic.view!0}次浏览</span>
           <span>•</span>
           <span>${model.formatDate(map.topic.inTime)}</span>
