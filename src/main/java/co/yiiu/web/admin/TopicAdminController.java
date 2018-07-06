@@ -3,8 +3,20 @@ package co.yiiu.web.admin;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
+import co.yiiu.core.util.JsonUtil;
+import co.yiiu.module.category.model.Category;
+import co.yiiu.module.category.service.CategoryService;
+import co.yiiu.module.es.service.TopicSearchService;
+import co.yiiu.module.log.model.LogEventEnum;
+import co.yiiu.module.log.model.LogTargetEnum;
+import co.yiiu.module.log.service.LogService;
+import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
+import co.yiiu.module.topic.service.TopicTagService;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -25,7 +38,17 @@ public class TopicAdminController extends BaseController {
   @Autowired
   private TopicService topicService;
   @Autowired
+  private TopicTagService topicTagService;
+  @Autowired
+  private TagService tagService;
+  @Autowired
+  private LogService logService;
+  @Autowired
+  private TopicSearchService topicSearchService;
+  @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private CategoryService categoryService;
 
   /**
    * topic list
@@ -38,6 +61,59 @@ public class TopicAdminController extends BaseController {
   public String list(@RequestParam(defaultValue = "1") Integer p, Model model) {
     model.addAttribute("page", topicService.findAllForAdmin(p, siteConfig.getPageSize()));
     return "admin/topic/list";
+  }
+
+  /**
+   * 新增话题
+   * @return
+   */
+  @GetMapping("/create")
+  public String add(Model model) {
+    //找到所有的模块
+    List<Category> moduleAll = categoryService.findAll();
+    model.addAttribute("moduleAll",moduleAll);
+    return "admin/topic/create";
+  }
+
+  /**
+   * 创建话题
+   *
+   * @param title
+   * @param content
+   * @return
+   */
+  @PostMapping("/create")
+  @ResponseBody
+  public Result create(String title, String content, String tag, String module) {
+    Topic topic = new Topic();
+    topic.setTitle(title);
+    topic.setContent(content);
+    topic.setModifyTime(new Date());
+    topic.setInTime(new Date());
+    topic.setView(0);
+    topic.setUserId(1);
+    topic.setCommentCount(0);
+    topic.setGood(false);
+    topic.setTop(false);
+    topic.setUp(0);
+    topic.setDown(0);
+    topic.setUpIds("");
+    topic.setDownIds("");
+    topic.setWeight(0.0);
+    topic.setCategoryId(module);
+    topic.setTag(Jsoup.clean(tag, Whitelist.none()));
+    topicService.save(topic);
+    // 处理标签
+    topicTagService.deleteByTopicId(topic.getId());
+    List<Tag> tagList = tagService.save(tag.split(","));
+    topicTagService.save(tagList, topic.getId());
+    // 日志
+    logService.save(LogEventEnum.CREATE_TOPIC, 1, LogTargetEnum.TOPIC.name(), topic.getId(),
+            null, JsonUtil.objectToJson(topic), topic);
+    // 索引话题
+    if(siteConfig.isSearch()) topicSearchService.indexed(topic, "admin");
+
+    return Result.success();
   }
 
   /**

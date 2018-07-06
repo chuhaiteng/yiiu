@@ -44,7 +44,8 @@ VALUES
   (45, '编辑', 43, '/admin/tag/edit', 'tag:edit'),
   (46, '删除', 43, '/admin/tag/delete', 'tag:delete'),
   (47, '索引标签', 1, '/admin/indexedTag', 'admin_index:indexedTag'),
-  (48, '编辑', 19, '/admin/user/edit', 'user:edit');
+  (48, '编辑', 19, '/admin/user/edit', 'user:edit'),
+  (49, '话题新增', 2, '/admin/topic/create', 'topic:create');
 
 INSERT INTO `yiiu_role` (`id`, `name`)
 VALUES
@@ -98,4 +99,9 @@ VALUES
   (262, 38, 1),
   (263, 44, 1),
   (264, 45, 1),
-  (265, 46, 1);
+  (265, 46, 1),
+  (266, 49, 1);
+
+INSERT INTO `yiiu_user` (`id`, `avatar`, `bio`, `block`, `comment_email`, `email`, `in_time`, `mobile`, `password`, `reply_email`, `reputation`, `token`, `url`, `username`)
+VALUES
+  (1, 'http://localhost:8080/static/images/upload/admin/avatar.png', '', 0, 1, '123456789@qq.com', '2018-07-05 13:00:00', '', '$10$P648km9TOvuOLZ6rZjAkfOdwsX1ZaK/JiKD.3u8lCfUTq09MMMY0u', 1, 0, 'e6cd2091-8bfa-4e04-ab12-6e35b64fab1d', '', 'admin');

@@ -75,6 +75,9 @@ public class TagSearchService {
    */
   public List<TagIndex> query(String keyword, Integer limit) {
     Pageable pageable = PageRequest.of(0, limit);
+    if(keyword == null){
+      keyword = "";
+    }
     QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(keyword, "name");
     SearchQuery query = new NativeSearchQueryBuilder()
         .withPageable(pageable)

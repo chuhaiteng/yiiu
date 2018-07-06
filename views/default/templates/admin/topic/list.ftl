@@ -15,6 +15,9 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <h3 class="box-title">话题列表</h3>
+        <#if sec.hasPermission('topic:create')>
+            <a href="/admin/topic/create" class="btn btn-sm btn-warning">话题新增</a>
+        </#if>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -23,6 +26,7 @@
           <tr>
             <th>#</th>
             <th>标题</th>
+            <th>所属模块</th>
             <th>用户</th>
             <th>状态</th>
             <th>时间</th>
@@ -34,6 +38,7 @@
             <tr>
               <td>${map.topic.id}</td>
               <td><a href="/topic/${map.topic.id}" target="_blank">${map.topic.title!}</a></td>
+              <td>${map.category.name}</td>
               <td>${map.user.username!}</td>
               <td>
                 <#if map.topic.top>

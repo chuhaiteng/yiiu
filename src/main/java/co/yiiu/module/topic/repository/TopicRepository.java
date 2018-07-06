@@ -40,7 +40,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpeci
 
   void delete(Topic topic);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id",
+  @Query(value = "select t as topic, u as user, c as category from Topic t, User u, Category c where t.userId = u.id and t.categoryId = c.id",
       countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
   Page<Map> findAllForAdmin(Pageable pageable);
 
