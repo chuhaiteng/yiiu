@@ -29,7 +29,7 @@
   <div>
     <div>
       {{#if logo}}<img class="tag-logo" src="{{logo}}">{{/if}}
-      {{name}} <span style="color: gray;">x {{topicCount}}</span>
+      {{name}} <span style="color: gray">x {{topicCount}}</span>
     </div>
     <div class="tag-intro">{{intro}}</div>
   </div>
@@ -59,11 +59,11 @@
       valueKey: 'name',
       source: tagAutoComplete,
       templates: {
-        // empty: [
-        //   '<div>',
-        //   '没有找到标签!',
-        //   '</div>'
-        // ].join('\n'),
+        empty: [
+          '<div>',
+          '没有找到标签!',
+          '</div>'
+        ].join('\n'),
         suggestion: Handlebars.compile($("#autocompleteTpl").html())
       }
     }

@@ -105,3 +105,7 @@ VALUES
 INSERT INTO `yiiu_user` (`id`, `avatar`, `bio`, `block`, `comment_email`, `email`, `in_time`, `mobile`, `password`, `reply_email`, `reputation`, `token`, `url`, `username`)
 VALUES
   (1, 'http://localhost:8080/static/images/upload/admin/avatar.png', '', 0, 1, '123456789@qq.com', '2018-07-05 13:00:00', '', '$10$P648km9TOvuOLZ6rZjAkfOdwsX1ZaK/JiKD.3u8lCfUTq09MMMY0u', 1, 0, 'e6cd2091-8bfa-4e04-ab12-6e35b64fab1d', '', 'admin');
+
+
+INSERT INTO `yiiu_category` (`id`, `in_time`, `name`) VALUES (1, '2018-7-6 08:14:15', 'OA系统');
+INSERT INTO `yiiu_category` (`id`, `in_time`, `name`) VALUES (2, '2018-7-6 08:15:19', '卓越系统');

@@ -1,7 +1,7 @@
 <#include "../layout/layout.ftl">
 <@html page_title="${topic.title!}">
 <link rel="stylesheet" href="/static/wangEditor/wangEditor.min.css">
-<div class="panel panel-default">
+<div class="panel panel-default" style="width:75%;float:left;">
   <div class="panel-body topic-detail-header">
     <div class="media">
       <div class="media-body">
@@ -69,7 +69,15 @@
       <span class="pull-right"><span id="collectCount">${collectCount!0}</span>个收藏</span>
     </div>
   </#if>-->
+
 </div>
+
+    <div class="col-md-3 hidden-sm hidden-xs">
+      <#include "../components/welcome.ftl"/>
+      <@welcome/>
+      <#include "../components/reputation.ftl"/>
+      <@reputation topic="${topic.title}" p=1 limit=10/>
+    </div>
 <#--<#if topic.commentCount == 0>
   <div class="panel panel-default">
     <div class="panel-body text-center">目前暂无评论</div>
@@ -103,6 +111,7 @@
   </div>
 </#if>-->
 <#include "../components/show_big_image.ftl"/>
+
 <script>
   $(function() {
     $("#btn").click(function() {

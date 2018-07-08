@@ -92,7 +92,7 @@ public class TopicSearchService {
     NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder()
         .withQuery(
           QueryBuilders.boolQuery()
-            .must(QueryBuilders.multiMatchQuery(keyword, "title", "content"))
+                  .should(QueryBuilders.multiMatchQuery(keyword, "title","content","tag"))
         );
     SearchQuery query = queryBuilder.withPageable(pageable).build();
     return topicIndexRepository.search(query);

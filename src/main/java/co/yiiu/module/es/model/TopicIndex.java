@@ -23,10 +23,10 @@ public class TopicIndex implements Serializable {
   @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
   private String content;
   private String username;
+  @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
   private String tag;
   private Date inTime;
   private Double weight;
-
   public TopicIndex() {
   }
 

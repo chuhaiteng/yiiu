@@ -7,7 +7,7 @@
       <div class="panel-heading">
 
         <ul class="nav nav-pills">
-
+            <li <#if !category?? || category == ''>class="active"</#if>><a href="/">全部</a></li>
         <#list categorylist as categorylist>
             <#--${category!}   ${categorylist.id }-->
             <#--&lt;#&ndash;${category.id}--${category.name}&ndash;&gt;-->

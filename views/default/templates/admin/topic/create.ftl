@@ -14,14 +14,14 @@
   <section class="content">
     <div class="box box-info">
       <div class="box-header with-border">
-        <h3 class="box-title">话题新增</h3>
+        <#--<h3 class="box-title">话题新增</h3>-->
       </div>
       <!-- /.box-header -->
       <div class="box-body">
         <form id="form">
           <div class="form-group">
             <label>模块选择</label>
-            <select id="module">
+            <select id="module" style="width:300px;border:1px solid #ccc;padding:4px 6px;border-radius:4px">
                 <#list moduleAll as m>
                     <option value="${m.id}">${m.name}</option>
                 </#list>

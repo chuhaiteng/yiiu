@@ -1,6 +1,9 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.service.TopicSearchService;
+import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;
@@ -24,6 +27,8 @@ public class ReputationDirective implements TemplateDirectiveModel {
   private UserService userService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private TopicSearchService topicSearchService;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
@@ -33,7 +38,8 @@ public class ReputationDirective implements TemplateDirectiveModel {
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
     int limit = map.get("limit") == null ? siteConfig.getPageSize() : Integer.parseInt(map.get("limit").toString());
 
-    Page<User> page = userService.findByReputation(p, limit);
+    //Page<User> page = userService.findByReputation(p, limit);
+    Page<TopicIndex> page = topicSearchService.query(map.get("topic").toString(),p,limit);
 
     environment.setVariable("page", builder.build().wrap(page));
 

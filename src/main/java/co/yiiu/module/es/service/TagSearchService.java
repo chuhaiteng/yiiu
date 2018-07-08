@@ -82,7 +82,10 @@ public class TagSearchService {
     SearchQuery query = new NativeSearchQueryBuilder()
         .withPageable(pageable)
         .withQuery(queryBuilder)
-        .build();return tagIndexRepository.search(query).getContent();
+        .build();
+    Page p = tagIndexRepository.search(query);
+    List<TagIndex> tags = tagIndexRepository.search(query).getContent();
+    return tagIndexRepository.search(query).getContent();
   }
 
   /**
