@@ -16,6 +16,8 @@
     overflow:hidden;
     width: 300px;
   }
+  .tag {float:left}
+  .tt-input{width:900px;}
 </style>
 
 <input type="text" id="tag" data-role="tagsinput" value="${tags}" class="form-control" size="5"

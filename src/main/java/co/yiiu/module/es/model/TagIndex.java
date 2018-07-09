@@ -15,7 +15,11 @@ import java.util.Date;
 @Document(indexName = "tag_index", type = "tag", refreshInterval = "-1")
 public class TagIndex implements Serializable {
 
+  public TagIndex() {
+  }
+
   @Id
+
   private Integer id;
   private String logo;
   @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
