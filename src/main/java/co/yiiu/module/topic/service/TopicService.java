@@ -322,4 +322,9 @@ public class TopicService {
     return topicRepository.findAll(specification);
   }
 
+  public List<Topic> findForOa(){
+    return topicRepository.findAllForOa();
+  }
+
+
 }

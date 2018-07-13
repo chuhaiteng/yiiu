@@ -21,13 +21,13 @@
         </form>
       </#if>
       <ul class="nav navbar-nav navbar-right">
-        <li class="hidden-xs <#if page_tab == "index">active</#if>">
+        <li class=" <#if page_tab == "index">active</#if>">
           <a href="/">首页</a>
         </li>
-        <li class="hidden-xs <#if page_tab == "tags">active</#if>">
+        <li class=" <#if page_tab == "tags">active</#if>">
           <a href="/tags">标签</a>
         </li>
-        <#if user??>
+       <#-- <#if user??>
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>
           </li>
@@ -42,7 +42,7 @@
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
-        </#if>
+        </#if>-->
       </ul>
     </div>
   </div>

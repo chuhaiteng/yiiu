@@ -70,7 +70,7 @@ public class CommonApiController extends BaseController {
    */
   @PostMapping("/wangEditorUpload")
   public Map<String, Object> wangEditorUpload(@RequestParam("file") MultipartFile file) {
-    String username = getUser().getUsername();
+    String username = "admin";
     Map<String, Object> map = new HashMap<>();
     if (!file.isEmpty()) {
       try {

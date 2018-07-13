@@ -5,7 +5,7 @@
 ```yaml
 site:
   name: YIIU
-  intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
+  intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，欢迎您的加入！</p>
   baseUrl: http://localhost:8080/ # 不要忘了后面的 '/'
   staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20

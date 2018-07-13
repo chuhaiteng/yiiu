@@ -1,7 +1,8 @@
 <#include "../layout/layout.ftl">
 <@html page_title="${topic.title!}">
 <link rel="stylesheet" href="/static/wangEditor/wangEditor.min.css">
-<div class="panel panel-default" style="width:75%;float:left;">
+<div class="col-md-9">
+<div class="panel panel-default" >
   <div class="panel-body topic-detail-header">
     <div class="media">
       <div class="media-body">
@@ -71,7 +72,7 @@
   </#if>-->
 
 </div>
-
+</div>
     <div class="col-md-3 hidden-sm hidden-xs">
       <#include "../components/welcome.ftl"/>
       <@welcome/>

@@ -15,10 +15,18 @@ spring:
     settings:
       template_exception_handler: rethrow
       number_format: 0.##
+
   datasource:
-    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
-    username: root
-    password: 123456
+      url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
+      username: yiiu
+      password: yiiu
+        #driver-class-name: oracle.jdbc.OracleDriver
+        #url: jdbc:oracle:thin:@192.168.45.90:1521:orclpdb
+
+        #url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.45.90)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orclpdb)))
+        #username: yiiu
+        #password: yiiu
+
   jpa:
     database: mysql
     show-sql: true
@@ -27,6 +35,17 @@ spring:
     properties:
       hibernate.format_sql: false
     open-in-view: false
+
+#  jpa:
+#    database: oracle
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate.format_sql: false
+#    open-in-view: false
+
+
   redis: # 如果redis都是默认配置，下面这些都可以不用配置
     host: localhost
     password:
@@ -52,7 +71,7 @@ spring:
       cluster-nodes: 192.168.38.151:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
 site:
   name: Q&A
-  intro: <h5>Q&A问答社区</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
+  intro: <h5>Q&A问答社区</h5><p>在这里，您可以提问，回答，分享，欢迎您的加入！</p>
   baseUrl: http://192.168.38.115:8080/ # 不要忘了后面的 '/'
   staticUrl: http://192.168.38.115:8080/static/images/upload/
   pageSize: 20
