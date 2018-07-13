@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,4 +52,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpeci
   @Query(value = "select t as topic from Topic t where  t.categoryId = ?1",
           countQuery = "select count(1) from Topic t where t.categoryId = ?1")
   Page<Map> findByCategory(String category, Pageable pageable);
+
+  @Query(value = "select t as tag,c as category from Topic t,Category c  where t.categoryId = c.id")
+    List<Topic> findAllForOa();
 }
