@@ -29,6 +29,7 @@ public class Attachment {
   private Integer width;
   private Integer height;
   // 文件大小
+  @Column(name="file_size")
   private String size;
   // 文件后缀
   private String suffix;

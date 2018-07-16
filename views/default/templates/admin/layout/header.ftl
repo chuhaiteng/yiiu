@@ -1,8 +1,8 @@
 <header class="main-header" style="position: fixed; width: 100%">
   <!-- Logo -->
   <a href="/admin/index" class="logo">
-    <span class="logo-mini"><b>Y</b>iiu</span>
-    <span class="logo-lg"><b>Yiiu</b>后台</span>
+    <span class="logo-mini"><b>Q&A</b></span>
+    <span class="logo-lg"><b>Q&A</b></span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top">

@@ -30,7 +30,7 @@ public class Topic implements Serializable {
 
   //内容
   //@Column(columnDefinition = "text")
-  @Column(columnDefinition = "varchar(256)")
+  @Column(columnDefinition = "clob")
   private String content;
 
   //发布时间
@@ -74,12 +74,12 @@ public class Topic implements Serializable {
 
   //@Column(columnDefinition = "text")
   //点赞用户id，逗号隔开(英文逗号)
-  @Column(columnDefinition = "varchar(256)")
+  @Column(columnDefinition = "clob")
   private String upIds;
 
   //@Column(columnDefinition = "text")
   //点赞用户id，逗号隔开(英文逗号)
-  @Column(columnDefinition = "varchar(256)")
+  @Column(columnDefinition = "clob")
   private String downIds;
 
   // 话题权重，用于排序的，参考：https://meta.stackexchange.com/questions/11602/what-formula-should-be-used-to-determine-hot-questions
@@ -88,7 +88,7 @@ public class Topic implements Serializable {
   private Double weight;
 
   // 冗余字段
-  @Column(name = "`tag`", nullable = false)
+  @Column(name = "tag", nullable = false)
   private String tag;
 
 }

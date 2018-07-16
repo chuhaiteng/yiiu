@@ -46,9 +46,10 @@ public class TopicSearchService {
       topicIndex.setTag(topic.getTag());
       topicIndex.setContent(topic.getContent());
       topicIndex.setInTime(topic.getInTime());
-
-      User user = userService.findById(topic.getUserId());
-      topicIndex.setUsername(user.getUsername());
+      if(topic.getUserId()!=null){
+        User user = userService.findById(topic.getUserId());
+        topicIndex.setUsername(user.getUsername());
+      }
       topicIndices.add(topicIndex);
     });
     // 保存前先删除索引

@@ -39,7 +39,7 @@
               <td>${map.topic.id}</td>
               <td><a href="/topic/${map.topic.id}" target="_blank">${map.topic.title!}</a></td>
               <td>${map.category.name}</td>
-              <td>${map.user.username!}</td>
+              <td><#if map.user??>${map.user.username!}</#if></td>
               <td>
                 <#if map.topic.top>
                   置顶

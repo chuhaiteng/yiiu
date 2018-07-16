@@ -18,7 +18,7 @@ public class Category implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(unique = true)
+  @Column(unique = true,name="CATE_NAME")
   private String name;
 
   private Date inTime;

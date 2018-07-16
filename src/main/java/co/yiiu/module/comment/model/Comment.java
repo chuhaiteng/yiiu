@@ -26,7 +26,7 @@ public class Comment implements Serializable {
 
   //评论的内容
   //@Column(columnDefinition = "text", nullable = false)
-  @Column(columnDefinition = "varchar(256)", nullable = false)
+  @Column(columnDefinition = "clob", nullable = false)
   private String content;
 
   //评论时间
@@ -49,12 +49,12 @@ public class Comment implements Serializable {
 
   //对评论点赞的用户id，逗号隔开(英文逗号)
   //@Column(columnDefinition = "text")
-  @Column(columnDefinition = "varchar(256)", nullable = false)
+  @Column(columnDefinition = "clob", nullable = false)
   private String upIds;
 
   //对评论点踩的用户id，逗号隔开(英文逗号)
   //@Column(columnDefinition = "text")
-  @Column(columnDefinition = "varchar(256)", nullable = false)
+  @Column(columnDefinition = "clob", nullable = false)
   private String downIds;
 
   // 被评论对象的ID

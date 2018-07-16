@@ -19,34 +19,34 @@ import java.util.Map;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpecificationExecutor<Topic> {
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.userId = ?1",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.userId = ?1")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id and t.userId = ?1",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id and t.userId = ?1")
   Page<Map> findByUserId(Integer userId, Pageable pageable);
 
   void deleteByUserId(Integer userId);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id")
   Page<Map> findTopics(Pageable pageable);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.good = ?1",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.good = ?1")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id and t.good = ?1",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id and t.good = ?1")
   Page<Map> findByGood(Boolean b, Pageable pageable);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.commentCount = ?1",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.commentCount = ?1")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id and t.commentCount = ?1",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id and t.commentCount = ?1")
   Page<Map> findByCommentCount(Integer commentCount, Pageable pageable);
 
   Topic findByTitle(String title);
 
   void delete(Topic topic);
 
-  @Query(value = "select t as topic, u as user, c as category from Topic t, User u, Category c where t.userId = u.id and t.categoryId = c.id",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
+  @Query(value = "select t as topic, u as user, c as category from Topic t left join User u on t.userId = u.id left join Category c on t.categoryId = c.id",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id")
   Page<Map> findAllForAdmin(Pageable pageable);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u, TopicTag tt where t.userId = u.id and t.id = tt.topicId and tt.tagId = ?1",
-      countQuery = "select count(1) from Topic t, User u, TopicTag tt where t.userId = u.id and t.id = tt.topicId and tt.tagId = ?1")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id left join TopicTag tt on t.id = tt.topicId and tt.tagId = ?1",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id left join TopicTag tt on t.id = tt.topicId and tt.tagId = ?1")
   Page<Map> findTopicsByTagId(Integer tagId, Pageable pageable);
 
   @Query(value = "select t as topic from Topic t where  t.categoryId = ?1",

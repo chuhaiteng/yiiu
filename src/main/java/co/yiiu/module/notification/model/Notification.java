@@ -45,7 +45,7 @@ public class Notification implements Serializable {
   private Integer topicId;
 
   //通知内容（冗余字段）
-  @Column(columnDefinition = "text")
+  @Column(columnDefinition = "clob")
   private String content;
 
 }

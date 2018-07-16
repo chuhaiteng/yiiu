@@ -38,12 +38,12 @@ public class Log implements Serializable {
 
   // 操作对象之前内容
   //@Column(name = "before_content", columnDefinition = "TEXT")
-  @Column(name = "before_content", columnDefinition = "varchar(256)")
+  @Column(name = "before_content", columnDefinition = "clob")
   private String before;
 
   // 操作对象之后内容
   //@Column(name = "after_content", columnDefinition = "TEXT")
-  @Column(name = "after_content", columnDefinition = "varchar(256)")
+  @Column(name = "after_content", columnDefinition = "clob")
   private String after;
 
   private Date inTime;

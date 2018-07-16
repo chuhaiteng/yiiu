@@ -67,8 +67,8 @@ public class TopicController extends BaseController {
       model.addAttribute("collect", null);
     }
     // 查询这个话题被收藏的个数
-    model.addAttribute("collectCount", collectService.countByTopicId(id));
-    model.addAttribute("topicUser", userService.findById(topic.getUserId()));
+//    model.addAttribute("collectCount", collectService.countByTopicId(id));
+//    model.addAttribute("topicUser", userService.findById(topic.getUserId()));
     // 查询话题的标签
     List<Tag> tags = tagService.findByTopicId(id);
     model.addAttribute("tags", tags);

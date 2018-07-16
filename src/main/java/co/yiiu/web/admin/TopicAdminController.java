@@ -15,6 +15,7 @@ import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.topic.service.TopicTagService;
+import co.yiiu.module.user.model.User;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,12 +87,15 @@ public class TopicAdminController extends BaseController {
   @ResponseBody
   public Result create(String title, String content, String tag, String module) {
     Topic topic = new Topic();
+    User user = getUser();
     topic.setTitle(title);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topic.setInTime(new Date());
     topic.setView(0);
-    topic.setUserId(1);
+    if(user!=null){
+      topic.setUserId(user.getId());
+    }
     topic.setCommentCount(0);
     topic.setGood(false);
     topic.setTop(false);
