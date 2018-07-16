@@ -29,7 +29,8 @@ public class Topic implements Serializable {
   private String title;
 
   //内容
-  @Column(columnDefinition = "text")
+  //@Column(columnDefinition = "text")
+  @Column(columnDefinition = "varchar(256)")
   private String content;
 
   //发布时间
@@ -57,7 +58,7 @@ public class Topic implements Serializable {
   private Boolean good;
 
   //浏览数
-  @Column(nullable = false)
+  @Column(nullable = false,name="viewnum")
   private Integer view;
 
   //与用户的关联关系
@@ -71,20 +72,23 @@ public class Topic implements Serializable {
 
   private Integer down;
 
-  @Column(columnDefinition = "text")
+  //@Column(columnDefinition = "text")
   //点赞用户id，逗号隔开(英文逗号)
+  @Column(columnDefinition = "varchar(256)")
   private String upIds;
 
-  @Column(columnDefinition = "text")
+  //@Column(columnDefinition = "text")
   //点赞用户id，逗号隔开(英文逗号)
+  @Column(columnDefinition = "varchar(256)")
   private String downIds;
 
   // 话题权重，用于排序的，参考：https://meta.stackexchange.com/questions/11602/what-formula-should-be-used-to-determine-hot-questions
   // 话题里的weight计算方法参考stackoverflow的计算公式
-  @Column(columnDefinition = "DOUBLE DEFAULT 0.0")
+  @Column(columnDefinition = "NUMBER DEFAULT 0.0")
   private Double weight;
 
   // 冗余字段
+  @Column(name = "`tag`", nullable = false)
   private String tag;
 
 }

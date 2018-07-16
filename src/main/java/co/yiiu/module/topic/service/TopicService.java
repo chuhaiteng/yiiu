@@ -163,7 +163,8 @@ public class TopicService {
     if(!StringUtils.isEmpty(category)){
       return topicRepository.findByCategory(category, pageable);
     } else {
-      return topicRepository.findTopics(pageable);
+      Page<Map> list = topicRepository.findTopics(pageable);
+      return list;
     }
   }
 

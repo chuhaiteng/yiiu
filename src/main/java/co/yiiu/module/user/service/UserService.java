@@ -2,6 +2,7 @@ package co.yiiu.module.user.service;
 
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
+import co.yiiu.module.category.model.Category;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
