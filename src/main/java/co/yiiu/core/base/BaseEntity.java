@@ -1,7 +1,6 @@
 package co.yiiu.core.base;
 
 import co.yiiu.config.SiteConfig;
-import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.security.Base64Helper;
@@ -19,7 +18,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -30,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -128,26 +125,6 @@ public class BaseEntity {
   public User getUser() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-    String token = CookieHelper.getValue(request, siteConfig.getCookie().getUserName());
-    if (StringUtils.isEmpty(token)) return null;
-    // token不为空，查redis
-    try {
-      token = new String(Base64Helper.decode(token));
-      ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
-      String redisUser = stringStringValueOperations.get(token);
-      if (!StringUtils.isEmpty(redisUser)) return JsonUtil.jsonToObject(redisUser, User.class);
-
-      User user = userService.findByToken(token);
-      if (user == null) {
-        CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
-      } else {
-        stringStringValueOperations.set(token, JsonUtil.objectToJson(user));
-        return user;
-      }
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
-    }
     return null;
   }
 
@@ -155,32 +132,7 @@ public class BaseEntity {
   public AdminUser getAdminUser() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-    String token = CookieHelper.getValue(request, siteConfig.getCookie().getAdminUserName());
-    if (StringUtils.isEmpty(token)) return null;
-    // token不为空，查redis
-    try {
-      token = new String(Base64Helper.decode(token));
-      ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
-      String redisAdminUser = stringStringValueOperations.get("admin_" + token);
-      if (!StringUtils.isEmpty(redisAdminUser)) return JsonUtil.jsonToObject(redisAdminUser, AdminUser.class);
-
-      AdminUser adminUser = adminUserService.findByToken(token);
-      if (adminUser == null) {
-        CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
-            siteConfig.getCookie().getDomain(), "/admin/");
-      } else {
-        Role role = roleService.findById(adminUser.getRoleId());
-        List<Permission> permissions = permissionService.findByUserId(adminUser.getId());
-        adminUser.setRole(role);
-        adminUser.setPermissions(permissions);
-        stringStringValueOperations.set("admin_" + token, JsonUtil.objectToJson(adminUser));
-        return adminUser;
-      }
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
-          siteConfig.getCookie().getDomain(), "/admin/");
-    }
-    return null;
+    AdminUser adminUser = (AdminUser)request.getSession().getAttribute("admin_user");
+    return adminUser;
   }
 }

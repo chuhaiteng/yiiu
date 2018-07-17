@@ -2,7 +2,6 @@ package co.yiiu.web.front;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.util.CookieHelper;
 import co.yiiu.module.category.model.Category;
 import co.yiiu.module.category.service.CategoryService;
 import co.yiiu.module.es.model.TopicIndex;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by tomoya.
@@ -114,8 +111,6 @@ public class IndexController extends BaseController {
   // 登出
   @GetMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) {
-    CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getUserName(),
-        siteConfig.getCookie().getDomain(), "/");
     return redirect("/");
   }
 

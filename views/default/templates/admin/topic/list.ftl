@@ -82,13 +82,13 @@
     var msg, url;
     if(action === 'top') {
       url = '/admin/topic/top';
-      msg = '确定要置顶这条评论吗？';
+      msg = '确定要置顶这条话题吗？';
     } else if(action === 'good') {
       url = '/admin/topic/good';
-      msg = '确定要加精这条评论吗？';
+      msg = '确定要加精这条话题吗？';
     } else if(action === 'delete') {
       url = '/admin/topic/delete';
-      msg = '确定要删除这条评论吗？';
+      msg = '确定要删除这条话题吗？';
     }
     if (confirm(msg)) {
       $.ajax({

@@ -71,8 +71,8 @@ spring:
 site:
   name: Q&A
   intro: <h5>Q&A问答社区</h5><p>在这里，您可以提问，回答，分享，欢迎您的加入！</p>
-  baseUrl: http://192.168.37.52:8080/ # 不要忘了后面的 '/'
-  staticUrl: http://192.168.37.52:8080/static/images/upload/
+  baseUrl: / # 不要忘了后面的 '/'
+  staticUrl: /static/images/upload/
   pageSize: 20
   uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
@@ -82,12 +82,12 @@ site:
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   uploadType: local # local, qiniu
-  cookie:
-    domain: 192.168.38.115
-    userName: remember-me
-    userMaxAge: 30 # 天
-    adminUserName: admin-remember-me
-    adminUserMaxAge: 30 # 天
+#  cookie:
+#    domain: 192.168.38.115
+#    userName: remember-me
+#    userMaxAge: 30 # 天
+#    adminUserName: admin-remember-me
+#    adminUserMaxAge: 30 # 天
   upload:
     qiniu:
       accessKey: # 七牛开发者上传的key

@@ -34,7 +34,7 @@ public class BaseController {
    * @return 没登录返回错误信息
    */
   protected User getUser() {
-    return baseEntity.getUser();
+    return null;
   }
 
   protected AdminUser getAdminUser() {

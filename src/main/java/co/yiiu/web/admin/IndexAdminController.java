@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.es.service.TagSearchService;
@@ -65,7 +64,7 @@ public class IndexAdminController extends BaseController {
 
   @PostMapping("/login")
   @ResponseBody
-  public Result login(String username, String password, String code, HttpServletResponse response, HttpSession session) {
+  public Result login(String username, String password, String code, HttpServletResponse response,HttpSession session) {
     ApiAssert.notEmpty(username, "用户名不能为空");
     ApiAssert.notEmpty(password, "密码不能为空");
     ApiAssert.notEmpty(code, "验证码不能为空");
@@ -84,16 +83,6 @@ public class IndexAdminController extends BaseController {
     adminUser.setPermissions(permissions);
 
     session.setAttribute("admin_user", adminUser);
-    CookieHelper.addCookie(
-        response,
-        siteConfig.getCookie().getDomain(),
-        "/admin/",
-        siteConfig.getCookie().getAdminUserName(),
-        Base64Helper.encode(adminUser.getToken().getBytes()),
-        siteConfig.getCookie().getAdminUserMaxAge() * 24 * 60 * 60,
-        true,
-        false
-    );
     return Result.success();
   }
 
@@ -110,8 +99,7 @@ public class IndexAdminController extends BaseController {
 
   @GetMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) {
-    CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
-        siteConfig.getCookie().getDomain(), "/admin/");
+    //todo: 这里需要结合单点登录之后的登出，还未集成
     return redirect("/admin/login");
   }
 

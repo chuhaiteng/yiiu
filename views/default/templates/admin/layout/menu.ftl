@@ -28,6 +28,14 @@
           </a>
         </li>
       </#if>
+      <#if sec.hasPermission('category:list')>
+        <li <#if page_tab=='category'>class="active"</#if>>
+          <a href="/admin/category/list">
+            <i class="fa fa-list"></i>
+            <span>模块列表</span>
+          </a>
+        </li>
+      </#if>
       <#if sec.hasPermission('comment:list')>
         <li <#if page_tab=='comment'>class="active"</#if>>
           <a href="/admin/comment/list">

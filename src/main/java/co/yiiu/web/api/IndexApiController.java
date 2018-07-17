@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.Identicon;
@@ -24,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -104,7 +104,7 @@ public class IndexApiController extends BaseController {
    * @return
    */
   @PostMapping("/login")
-  public Result login(String username, String password, HttpServletResponse response) {
+  public Result login(String username, String password, HttpServletResponse response,HttpServletRequest request) {
     ApiAssert.notEmpty(username, "用户名不能为空");
     ApiAssert.notEmpty(password, "密码不能为空");
 
@@ -115,17 +115,7 @@ public class IndexApiController extends BaseController {
     ApiAssert.isTrue(new BCryptPasswordEncoder().matches(password, user.getPassword()), "密码不正确");
 
     // 把用户信息写入cookie
-    CookieHelper.addCookie(
-        response,
-        siteConfig.getCookie().getDomain(),
-        "/",
-        siteConfig.getCookie().getUserName(),
-        Base64Helper.encode(user.getToken().getBytes()),
-        siteConfig.getCookie().getUserMaxAge() * 24 * 60 * 60,
-        true,
-        false
-    );
-
+    request.getSession().setAttribute("userid",user.getId());
     return Result.success();
   }
 
