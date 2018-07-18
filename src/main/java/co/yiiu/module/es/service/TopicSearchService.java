@@ -6,9 +6,8 @@ import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,7 +92,7 @@ public class TopicSearchService {
     NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder()
         .withQuery(
           QueryBuilders.boolQuery()
-                  .should(QueryBuilders.multiMatchQuery(keyword, "title","content","tag"))
+                  .should(QueryBuilders.multiMatchQuery(keyword, "title","content","tag").minimumShouldMatch("75%"))
         );
     SearchQuery query = queryBuilder.withPageable(pageable).build();
     return topicIndexRepository.search(query);
@@ -104,5 +103,22 @@ public class TopicSearchService {
    */
   public void clearAll() {
     topicIndexRepository.deleteAll();
+  }
+
+
+  /**
+   * 详情页相关内容
+   */
+  public Page<TopicIndex> Detialquery(List keywords, Integer pageNo, Integer pageSize, Integer topic) {
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+    NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+    BoolQueryBuilder boolqueryBuilder = QueryBuilders.boolQuery();
+    for(int i=0;i<keywords.size();i++) {
+      boolqueryBuilder.should(QueryBuilders.multiMatchQuery(keywords.get(i), "title","content","tag").minimumShouldMatch("75%"));
+    }
+    boolqueryBuilder.mustNot(QueryBuilders.matchQuery("id",topic));
+    queryBuilder.withQuery(boolqueryBuilder);
+    SearchQuery query = queryBuilder.withPageable(pageable).build();
+    return topicIndexRepository.search(query);
   }
 }

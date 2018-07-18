@@ -77,7 +77,7 @@
       <#include "../components/welcome.ftl"/>
       <@welcome/>
       <#include "../components/reputation.ftl"/>
-      <@reputation topic="${topic.title}" p=1 limit=10/>
+      <@reputation topic="${topic.id}" title="${topic.title}"  p=1 limit=10 />
     </div>
 <#--<#if topic.commentCount == 0>
   <div class="panel panel-default">
