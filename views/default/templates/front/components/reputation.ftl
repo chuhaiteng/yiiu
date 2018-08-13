@@ -5,11 +5,9 @@
       <table class="table">
         <tbody>
         <#list page.getContent() as content>
-            <#--<#if "${content.id}" != topic>-->
                 <tr>
                   <td><a href="/topic/${content.id}">${content.title}</a></td>
                 </tr>
-            <#--</#if>-->
         </#list>
         </tbody>
       </table>

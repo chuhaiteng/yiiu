@@ -45,8 +45,8 @@ public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpeci
       countQuery = "select count(1) from Topic t left join User u on t.userId = u.id")
   Page<Map> findAllForAdmin(Pageable pageable);
 
-  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id left join TopicTag tt on t.id = tt.topicId and tt.tagId = ?1",
-      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id left join TopicTag tt on t.id = tt.topicId and tt.tagId = ?1")
+  @Query(value = "select t as topic, u as user from Topic t left join User u on t.userId = u.id,TopicTag tt where t.id = tt.topicId and tt.tagId = ?1",
+      countQuery = "select count(1) from Topic t left join User u on t.userId = u.id ,TopicTag tt where t.id = tt.topicId and tt.tagId = ?1")
   Page<Map> findTopicsByTagId(Integer tagId, Pageable pageable);
 
   @Query(value = "select t as topic from Topic t where  t.categoryId = ?1",

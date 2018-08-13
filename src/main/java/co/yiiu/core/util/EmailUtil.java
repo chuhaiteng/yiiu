@@ -17,9 +17,9 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 public class EmailUtil {
 
-  @Autowired
+
   private JavaMailSender javaMailSender;
-  @Autowired
+
   private Environment env;
 
   public void sendEmail(String email, String subject, String content) {

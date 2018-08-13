@@ -1,8 +1,24 @@
-server:
-  port: 8080
 spring:
   application:
     name: YIIU
+  datasource:
+    name: oracle
+    url: jdbc:oracle:thin:@syht.sunnyoptical.com:1521/orclpdb.sunnyoptical.com
+    username: answer
+    password: answer
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
   resources:
     static-locations:
     - classpath:/${site.theme}/static/
@@ -15,26 +31,6 @@ spring:
     settings:
       template_exception_handler: rethrow
       number_format: 0.##
-
-  datasource:
-#      url: jdbc:mysql://192.168.38.115/yiiu?useSSL=false&characterEncoding=utf8
-#      username: yiiu
-#      password: yiiu
-      driver-class-name: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@192.168.45.90:1521:orclpdb
-      url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.45.90)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orclpdb)))
-      username: yiiu
-      password: yiiu
-
-#  jpa:
-#    database: mysql
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate.format_sql: false
-#    open-in-view: false
-
   jpa:
     database: oracle
     show-sql: true
@@ -43,18 +39,10 @@ spring:
     properties:
       hibernate.format_sql: false
     open-in-view: false
-
-
-  redis: # 如果redis都是默认配置，下面这些都可以不用配置
-    host: localhost
-    password:
-    port: 6379
-    ssl: false
-    database: 0
   mail:
     host: smtp.qq.com
     username: xxoo@qq.com
-    password: # 这里的密码是QQ邮箱的授权码
+    password:
     port: 465
     properties:
       mail.smtp.auth: true
@@ -66,8 +54,8 @@ spring:
       max-file-size: 2MB
   data:
     elasticsearch:
-      cluster-name: elasticsearch #默认为elasticsearch
-      cluster-nodes: 192.168.38.151:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.46.197:9300
 site:
   name: Q&A
   intro: <h5>Q&A问答社区</h5><p>在这里，您可以提问，回答，分享，欢迎您的加入！</p>
@@ -82,12 +70,6 @@ site:
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   uploadType: local # local, qiniu
-#  cookie:
-#    domain: 192.168.38.115
-#    userName: remember-me
-#    userMaxAge: 30 # 天
-#    adminUserName: admin-remember-me
-#    adminUserMaxAge: 30 # 天
   upload:
     qiniu:
       accessKey: # 七牛开发者上传的key
@@ -99,7 +81,6 @@ site:
       clientId: # github申请应用的ClientId
       clientSecret: # 对应的密钥
       callbackUrl: ${site.baseUrl}/oauth2/github/callback
-
 mail:
   register:
     subject: 注册验证码 - ${site.name}
@@ -121,7 +102,6 @@ mail:
       <p>&nbsp;&nbsp;$\{username!} 回复了您在话题 <a href='$\{domain!}topic/$\{topic.id}'>$\{topic.title!}</a> 下的评论</p>
       <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>$\{content!}</div><br>
       <small>本邮件为系统发出，请不要回复</small>
-
 log:
   template:
     createTopic: 创建话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>

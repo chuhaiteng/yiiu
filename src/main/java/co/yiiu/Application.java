@@ -3,7 +3,9 @@ package co.yiiu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
@@ -11,9 +13,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
+
 @SpringBootApplication
 // @EnableAutoConfiguration注解加上，有异常不会找默认error页面了，而是直接输出字符串
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
+@Configuration
 @EnableElasticsearchRepositories(basePackages = "co.yiiu.module.es.repository")
 public class Application {
 

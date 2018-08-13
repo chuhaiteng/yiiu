@@ -25,6 +25,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -97,63 +98,172 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc7</artifactId>
+      <version>12.1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.29</version>
+    </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <docker.image.prefix>tomoya92</docker.image.prefix>
   </properties>
 
   <build>
-    <finalName>yiiu</finalName>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <outputDirectory>target/classes</outputDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <testOutputDirectory>target/test-classes</testOutputDirectory>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <targetPath>${project.build.directory}/classes</targetPath>
       </resource>
       <resource>
         <directory>views</directory>
+        <targetPath>${project.build.directory}/deploy/views</targetPath>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <targetPath>${project.build.directory}/deploy</targetPath>
       </resource>
     </resources>
     <plugins>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
         <configuration>
-          <mainClass>co.yiiu.Application</mainClass>
-          <fork>true</fork>
+          <!-- 不指定单元测试 -->
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
-
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <!-- This plugin is only to test run our little application. It is not
+          needed in most Shiro-enabled applications: -->
+      <plugin><!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>co.yiiu.Application</mainClass>
+              <useUniqueVersions>false</useUniqueVersions>
+            </manifest>
+            <manifestEntries>
+              <Class-Path>./</Class-Path>
+            </manifestEntries>
+          </archive>
+          <outputDirectory>
+            ${project.build.directory}/deploy
+          </outputDirectory>
+          <excludes>
+            <exclude>**/*.properties</exclude>
+            <exclude>**/*.xml</exclude>
+            <exclude>**/*.yml</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin><!-- 拷贝依赖的jar包到lib目录 -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/deploy/lib
+              </outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classpathScope>test</classpathScope>
+          <mainClass>Tutorial</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.6.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}/target/deploy</directory>
+            </fileset>
+            <fileset>
+              <directory>${basedir}/target/classes</directory>
+            </fileset>
+            <fileset>
+              <directory>${basedir}/target/test-classes</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>0.4.11</version>
         <configuration>
-          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-          <imageTags>${project.version}</imageTags>
-          <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+          <imageName>${project.artifactId}</imageName>
+          <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+          <dockerDirectory>src/main/docker</dockerDirectory>
+          <dockerHost>http://192.168.46.197:2375</dockerHost>
           <resources>
             <resource>
               <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
-            </resource>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.basedir}</directory>
-              <include>views/</include>
-            </resource>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.basedir}</directory>
-              <include>src/main/docker/app.sh</include>
+              <directory>${project.build.directory}/deploy</directory>
+              <include>**</include>
+              <!--<includes>-->
+
+              <!--<include>${project.build.finalName}.jar</include>-->
+              <!--<include>lib</include>-->
+              <!--<include>application.yml</include>-->
+              <!--<include>mydatabase.sqlite</include>-->
+              <!--</includes>-->
             </resource>
           </resources>
+          <imageTags>
+            <imageTag>${project.version}</imageTag>
+            <imageTag>latest</imageTag>
+          </imageTags>
         </configuration>
       </plugin>
     </plugins>
+    <finalName>${project.artifactId}</finalName>
   </build>
 
 </project>

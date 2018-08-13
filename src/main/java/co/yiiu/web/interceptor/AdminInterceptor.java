@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by tomoya at 2018/3/15
@@ -32,9 +33,10 @@ public class AdminInterceptor implements HandlerInterceptor {
    * @throws Exception
    */
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws IOException {
     AdminUser adminUser = baseEntity.getAdminUser();
-    Assert.notNull(adminUser, "请先登录，点击去<a href='/admin/login'>登录</a>");
+    //Assert.notNull(adminUser, "请先登录，点击去<a href='/admin/login'>登录</a>");
+    if(adminUser==null) {response.sendRedirect(request.getContextPath()+"/admin/login"); return false;}
     // 鉴权
     boolean flag = false;
     String requestURI = request.getRequestURI();
